@@ -55,7 +55,12 @@ const fetcher = function () {
             if (err) {
               throw err;
             }
-            console.log(`File written successfully: ${x} bytes.`);
+            fs.stat(localPath, (err, stats) => {
+              if (err) {
+                console.error(err);
+              }
+              console.log(`File written successfully: ${stats.size} bytes used.`);
+            });
             rl.close();
           })
         })
@@ -63,8 +68,12 @@ const fetcher = function () {
         console.log(err);
         throw "File cannot be written.";
       } else {
-        let x = fs.stat(localPath).size;
-        console.log(`File written successfully: ${x} bytes.`);
+        fs.stat(localPath, (err, stats) => {
+          if (err) {
+            console.error(err);
+          }
+          console.log(`File written successfully: ${stats.size} bytes used.`);
+        });
         rl.close();
       }
     })
